@@ -1,12 +1,12 @@
 <div align="center">
 
-# ♿ a11y-playwright
+# ♿ accessibility-tests-playwright
 
 **Testes de Acessibilidade (WCAG)** &nbsp;·&nbsp; Playwright &nbsp;·&nbsp; axe-core &nbsp;·&nbsp; cross-browser
 
-[![Accessibility Tests](https://github.com/MateusCerqueiraG/a11y-playwright/actions/workflows/a11y.yml/badge.svg)](https://github.com/MateusCerqueiraG/a11y-playwright/actions/workflows/a11y.yml)
+[![Accessibility Tests](https://github.com/MateusCerqueiraG/accessibility-tests-playwright/actions/workflows/a11y.yml/badge.svg)](https://github.com/MateusCerqueiraG/accessibility-tests-playwright/actions/workflows/a11y.yml)
 &nbsp;
-[![Relatório Allure](https://img.shields.io/badge/📊_Relatório-Allure_ao_vivo-5fd0e6?style=flat&labelColor=103a4e)](https://mateuscerqueirag.github.io/a11y-playwright/)
+[![Relatório Allure](https://img.shields.io/badge/📊_Relatório-Allure_ao_vivo-5fd0e6?style=flat&labelColor=103a4e)](https://mateuscerqueirag.github.io/accessibility-tests-playwright/)
 
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)
@@ -30,7 +30,7 @@ A regra é simples e intuitiva: **achou violação séria/crítica → vermelho*
 | 🟢 **Gate de acessibilidade** | `accessible.html` (conforme) | ✅ **verde** — sem violações |
 | 🔴 **Demo — página problemática** | `inaccessible.html` | ❌ **vermelho** — acha e lista as violações |
 
-O job da demo roda com `continue-on-error` (**falha permitida**): ele fica vermelho de verdade — provando que o gate pega problema — mas **não derruba o badge geral**, que reflete o gate sobre conteúdo conforme. No [relatório Allure](https://mateuscerqueirag.github.io/a11y-playwright/) dá pra ver os dois: a página boa passando e a ruim reprovando com as violações (`image-alt`, `link-name`, `html-has-lang`, `color-contrast`…).
+O job da demo roda com `continue-on-error` (**falha permitida**): ele fica vermelho de verdade — provando que o gate pega problema — mas **não derruba o badge geral**, que reflete o gate sobre conteúdo conforme. No [relatório Allure](https://mateuscerqueirag.github.io/accessibility-tests-playwright/) dá pra ver os dois: a página boa passando e a ruim reprovando com as violações (`image-alt`, `link-name`, `html-has-lang`, `color-contrast`…).
 
 Rodar a demo localmente:
 ```bash
@@ -75,7 +75,7 @@ pytest --browser chromium --browser firefox
 
 ## 📊 Relatório Allure
 
-### 👉 **[mateuscerqueirag.github.io/a11y-playwright](https://mateuscerqueirag.github.io/a11y-playwright/)**
+### 👉 **[mateuscerqueirag.github.io/accessibility-tests-playwright](https://mateuscerqueirag.github.io/accessibility-tests-playwright/)**
 
 ---
 
