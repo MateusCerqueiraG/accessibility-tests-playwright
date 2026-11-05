@@ -1,0 +1,7 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","244","test_accessible_page_has_no_severe_violations[chromium]","tests","2026-11-05","passed","2026-11-05","","test_accessible_page","",""
+"","651","test_accessible_page_has_no_severe_violations[firefox]","tests","2026-11-05","passed","2026-11-05","","test_accessible_page","",""
+"","148","test_bad_page_reports_violations[chromium]","tests","2026-11-05","passed","2026-11-05","","test_detects_issues","",""
+"","342","test_bad_page_reports_violations[firefox]","tests","2026-11-05","passed","2026-11-05","","test_detects_issues","",""
+"","135","test_audit_catches_known_wcag_issues[chromium]","tests","2026-11-05","passed","2026-11-05","","test_detects_issues","",""
+"","334","test_audit_catches_known_wcag_issues[firefox]","tests","2026-11-05","passed","2026-11-05","","test_detects_issues","",""
