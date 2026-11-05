@@ -10,45 +10,65 @@ permissions:
   contents: write
 
 jobs:
-  a11y:
+  gate:
+    name: Gate de acessibilidade (página conforme → verde)
     runs-on: ubuntu-latest
-    name: a11y (Chromium + Firefox)
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: pip
-
       - name: Install dependencies
         run: pip install -r requirements.txt
-
       - name: Install Playwright browsers
         run: python -m playwright install --with-deps chromium firefox
-
-      - name: Run accessibility tests (axe-core)
+      - name: Audita página conforme (axe-core)
         run: pytest --browser chromium --browser firefox --reruns 2 --reruns-delay 2 --alluredir=allure-results
-
       - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results
+          name: allure-results-gate
+          path: allure-results
+          if-no-files-found: ignore
+
+  demo:
+    name: Demo — página problemática (acha violação → vermelho, falha permitida)
+    runs-on: ubuntu-latest
+    continue-on-error: true   # falha esperada: não derruba o badge geral
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Install Playwright browsers
+        run: python -m playwright install --with-deps chromium firefox
+      - name: Audita página problemática (deve reprovar)
+        run: pytest -m demo --browser chromium --browser firefox --alluredir=allure-results
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-demo
           path: allure-results
           if-no-files-found: ignore
 
   report:
     name: Publish Allure report
-    needs: a11y
+    needs: [gate, demo]
     if: ${{ always() && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download Allure results
+      - name: Download Allure results (gate + demo)
         uses: actions/download-artifact@v4
         with:
-          name: allure-results
+          pattern: allure-results-*
           path: allure-results
+          merge-multiple: true
 
       - name: Load previous report history
         uses: actions/checkout@v4

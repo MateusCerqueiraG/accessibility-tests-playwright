@@ -23,24 +23,23 @@ Testes automatizados de **acessibilidade** com **Playwright** (dirigindo Chromiu
 
 ## ✅ Como funciona o gate
 
-| Situação | Resultado |
-|:--|:--|
-| Página **sem** violações sérias/críticas | ✅ **verde** (acessível) |
-| Página **com** violações | ❌ **vermelho** (reprovado, lista as violações) |
+A regra é simples e intuitiva: **achou violação séria/crítica → vermelho**. O CI roda **dois jobs** que mostram isso na prática:
 
-Se alguém introduzir um problema de acessibilidade (imagem sem `alt`, link sem texto, contraste baixo…), a suíte **falha** — é esse o valor do gate.
+| Job | Página | Resultado |
+|:--|:--|:--|
+| 🟢 **Gate de acessibilidade** | `accessible.html` (conforme) | ✅ **verde** — sem violações |
+| 🔴 **Demo — página problemática** | `inaccessible.html` | ❌ **vermelho** — acha e lista as violações |
 
-### 🔴 Ver o gate reprovando (demo)
-O repo traz uma página propositalmente problemática (`inaccessible.html`). Para ver o gate **ficar vermelho** de verdade:
+O job da demo roda com `continue-on-error` (**falha permitida**): ele fica vermelho de verdade — provando que o gate pega problema — mas **não derruba o badge geral**, que reflete o gate sobre conteúdo conforme. No [relatório Allure](https://mateuscerqueirag.github.io/a11y-playwright/) dá pra ver os dois: a página boa passando e a ruim reprovando com as violações (`image-alt`, `link-name`, `html-has-lang`, `color-contrast`…).
+
+Rodar a demo localmente:
 ```bash
-pytest -m demo --browser chromium
-# FAILED: image-alt (critical), link-name (serious), html-has-lang (serious)...
+pytest -m demo --browser chromium   # FAILED: image-alt (critical), link-name (serious)...
 ```
-Essa demo fica **fora do CI** (marcador `demo`, excluído por `-m "not demo"`), para o badge refletir só o gate sobre conteúdo conforme.
 
 <div align="center">
 
-**Gate real × 2 navegadores (Chromium + Firefox) &nbsp;·&nbsp; verde = acessível**
+**2 jobs (conforme + problemática) × 2 navegadores &nbsp;·&nbsp; achou problema = vermelho**
 
 </div>
 
