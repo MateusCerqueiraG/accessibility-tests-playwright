@@ -17,22 +17,30 @@
 
 ---
 
-Testes automatizados de **acessibilidade** com **Playwright** (dirigindo Chromium e Firefox) + **axe-core** (o motor de auditoria de WCAG usado pela indústria). Audita páginas, aponta violações por severidade e **reprova** quando há problema sério.
+Testes automatizados de **acessibilidade** com **Playwright** (dirigindo Chromium e Firefox) + **axe-core** (o motor de auditoria de WCAG usado pela indústria). É um **gate**: audita a página e **reprova (fica vermelho) se encontrar qualquer violação séria ou crítica**. Verde = acessível.
 
-> 🎯 **Alvo sob teste:** duas páginas de demonstração no próprio repo — uma **acessível** (que deve passar) e uma **cheia de problemas** (que a auditoria deve detectar). As mesmas técnicas valem para qualquer página web real.
+> 🎯 **Alvo sob teste:** páginas de demonstração no próprio repo. As mesmas técnicas valem para qualquer página web real.
 
-## ✅ O que a suíte verifica
+## ✅ Como funciona o gate
 
-| Teste | O que faz |
+| Situação | Resultado |
 |:--|:--|
-| ✅ **Página acessível** | audita `accessible.html` e exige **zero violações sérias/críticas** de WCAG |
-| 🔎 **Detecção de problemas** | audita `inaccessible.html` e confirma que o axe **pega** as violações reais |
+| Página **sem** violações sérias/críticas | ✅ **verde** (acessível) |
+| Página **com** violações | ❌ **vermelho** (reprovado, lista as violações) |
 
-Violações detectadas na página-problema incluem: `image-alt` (imagem sem texto alternativo), `html-has-lang` (idioma não declarado), `document-title` (sem `<title>`), `link-name` (link sem texto), `color-contrast` (contraste baixo).
+Se alguém introduzir um problema de acessibilidade (imagem sem `alt`, link sem texto, contraste baixo…), a suíte **falha** — é esse o valor do gate.
+
+### 🔴 Ver o gate reprovando (demo)
+O repo traz uma página propositalmente problemática (`inaccessible.html`). Para ver o gate **ficar vermelho** de verdade:
+```bash
+pytest -m demo --browser chromium
+# FAILED: image-alt (critical), link-name (serious), html-has-lang (serious)...
+```
+Essa demo fica **fora do CI** (marcador `demo`, excluído por `-m "not demo"`), para o badge refletir só o gate sobre conteúdo conforme.
 
 <div align="center">
 
-**3 testes × 2 navegadores = 6 execuções &nbsp;·&nbsp; Chromium + Firefox &nbsp;·&nbsp; 100% verde**
+**Gate real × 2 navegadores (Chromium + Firefox) &nbsp;·&nbsp; verde = acessível**
 
 </div>
 
@@ -48,11 +56,11 @@ Violações detectadas na página-problema incluem: `image-alt` (imagem sem text
 
 ```
 pages/
-├── accessible.html       # página bem construída (deve passar)
-└── inaccessible.html     # página com problemas (a auditoria deve detectar)
+├── accessible.html       # página conforme (o gate aprova)
+└── inaccessible.html     # página com problemas (usada na demo do gate reprovando)
 tests/
-├── test_accessible_page.py   # exige zero violações sérias/críticas
-└── test_detects_issues.py    # confirma que o axe pega os problemas conhecidos
+├── test_accessibility.py # o gate: reprova se houver violação séria/crítica
+└── test_demo_gate.py     # demo (fora do CI): mostra o gate ficando vermelho
 .github/workflows/a11y.yml
 ```
 
